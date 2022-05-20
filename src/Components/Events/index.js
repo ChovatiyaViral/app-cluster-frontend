@@ -20,7 +20,6 @@ export default function Events() {
     const classes = useStyles();
     toast.configure();
     const [eventData, setEventData] = useState([]);
-    console.log("eventData", eventData);
     useEffect(() => {
         fetchEventData();
     }, []);

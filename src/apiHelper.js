@@ -113,7 +113,6 @@ export const ApiPost = (type, data) => {
                     error.response && error.response.hasOwnProperty('data') && error.response.data &&
                     error.response.data.hasOwnProperty('error') && error.response.data.error) {
                     if (error.response.status === 401) {
-                        // localStorage.clear();
                         window.location.reload()
                         return
                     }

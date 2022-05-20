@@ -158,7 +158,7 @@ export default function HomePage() {
     }
 
     const handleAddData = async (data) => {
-
+        
         if (data) {
             try {
                 await ApiPost(`/event`, data)
