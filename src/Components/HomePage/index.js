@@ -88,6 +88,7 @@ export default function HomePage() {
         description: ''
     });
     const [type, setType] = useState('Edit');
+    const [htmlDoc, setHtmlDoc] = useState(null)
 
     useEffect(() => {
         fetchEventData()
@@ -192,7 +193,8 @@ export default function HomePage() {
                 await ApiPost(`/event/html`, data)
                     .then((res) => {
                         if (res.status === 200) {
-                            
+                            setHtmlDoc(res.data)
+                            console.log("res", res);
                         }
                     })
 
@@ -230,6 +232,7 @@ export default function HomePage() {
                         </div>
                     )
                 })}
+                <div dangerouslySetInnerHTML={{ __html: htmlDoc }} ></div>
             </Layout>
         </>
     )
