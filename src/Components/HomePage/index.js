@@ -4,6 +4,7 @@ import { ApiDelete, ApiGet, ApiPost, ApiPut } from '../../apiHelper';
 import Layout from '../../Layout';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import AddEventModal from '../../commonComponents/AddEventModal';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -158,7 +159,7 @@ export default function HomePage() {
     }
 
     const handleAddData = async (data) => {
-        
+
         if (data) {
             try {
                 await ApiPost(`/event`, data)
@@ -185,6 +186,22 @@ export default function HomePage() {
         handleToggleModal();
     }
 
+    const handleViewContent = async (data) => {
+        if (data) {
+            try {
+                await ApiPost(`/event/html`, data)
+                    .then((res) => {
+                        if (res.status === 200) {
+                            
+                        }
+                    })
+
+            } catch (error) {
+                console.log("err", error);
+            }
+        }
+    }
+
 
     return (
         <>
@@ -208,6 +225,7 @@ export default function HomePage() {
                             <div className={classes.actionIcons}>
                                 <DeleteIcon onClick={() => handleDeleteEvent(item._id)} />
                                 <EditIcon onClick={() => handleEditEvent(item.id)} />
+                                <VisibilityIcon onClick={() => handleViewContent(item)} />
                             </div>
                         </div>
                     )

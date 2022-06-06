@@ -6,7 +6,8 @@ const axios = require('axios');
 const defaultHeaders = {
     isAuth: true,
     AdditionalParams: {},
-    isJsonRequest: true
+    isJsonRequest: true,
+    isMultipleFileRequest: true
 };
 
 
@@ -133,6 +134,10 @@ export const getHttpOptions = (options = defaultHeaders) => {
 
     if (options.hasOwnProperty('isJsonRequest') && options.isJsonRequest) {
         headers['Content-Type'] = 'application/json';
+    }
+
+    if (options.hasOwnProperty('isMultipleFileRequest') && options.isMultipleFileRequest) {
+        headers['Content-Type'] = 'multipart/form-data';
     }
 
     if (options.hasOwnProperty('AdditionalParams') && options.AdditionalParams) {
