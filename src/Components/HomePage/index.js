@@ -7,6 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import AddEventModal from '../../commonComponents/AddEventModal';
 import AddIcon from '@material-ui/icons/Add';
+import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 
 const useStyles = makeStyles(theme => ({
 
@@ -189,11 +190,32 @@ export default function HomePage() {
 
     const handleViewContent = async (data) => {
         if (data) {
+            console.log("data", data);
             try {
                 await ApiPost(`/event/html`, data)
                     .then((res) => {
                         if (res.status === 200) {
                             setHtmlDoc(res.data)
+                            console.log("res", res);
+                        }
+                    })
+
+            } catch (error) {
+                console.log("err", error);
+            }
+        }
+    }
+
+    const handleViewPdf = async (data) => {
+        if (data) {
+            try {
+                await ApiPost(`/event/html/pdf`, data)
+                    .then((res) => {
+                        if (res.status === 200) {
+                            let a = document.createElement("a");
+                            a.href = "data:application/octet-stream;base64," + res.data.pdf;
+                            a.download = "event_pdf.pdf"
+                            a.click();
                             console.log("res", res);
                         }
                     })
@@ -228,6 +250,7 @@ export default function HomePage() {
                                 <DeleteIcon onClick={() => handleDeleteEvent(item._id)} />
                                 <EditIcon onClick={() => handleEditEvent(item.id)} />
                                 <VisibilityIcon onClick={() => handleViewContent(item)} />
+                                <AssignmentReturnedIcon onClick={() => handleViewPdf(item)} />
                             </div>
                         </div>
                     )

@@ -136,9 +136,9 @@ export const getHttpOptions = (options = defaultHeaders) => {
         headers['Content-Type'] = 'application/json';
     }
 
-    if (options.hasOwnProperty('isMultipleFileRequest') && options.isMultipleFileRequest) {
-        headers['Content-Type'] = 'multipart/form-data';
-    }
+    // if (options.hasOwnProperty('isMultipleFileRequest') && options.isMultipleFileRequest) {
+    //     headers['Content-Type'] = 'multipart/form-data';
+    // }
 
     if (options.hasOwnProperty('AdditionalParams') && options.AdditionalParams) {
         headers = { ...headers, ...options.AdditionalParams };
