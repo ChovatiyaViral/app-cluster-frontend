@@ -195,7 +195,7 @@ export default function HomePage() {
                 await ApiPost(`/event/html`, data)
                     .then((res) => {
                         if (res.status === 200) {
-                            setHtmlDoc(res.data)
+                            setHtmlDoc(res.data.EventHtmlTemplate)
                             console.log("res", res);
                         }
                     })
