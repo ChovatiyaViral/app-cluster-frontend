@@ -17,6 +17,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Events() {
+
+
     const classes = useStyles();
     toast.configure();
     const [eventData, setEventData] = useState([]);
@@ -24,6 +26,8 @@ export default function Events() {
         fetchEventData();
     }, []);
 
+    const token = localStorage.getItem("token");
+    const decordeToke = JSON.parse(atob(token.split('.')[1]));
     const fetchEventData = async () => {
         try {
             await ApiGet('/partyEvents')
@@ -38,17 +42,19 @@ export default function Events() {
         }
     }
 
-    const handleLikeDisLike = async (id, is_like) => {
+    const handleLikeDisLike = async (id, like, user_id) => {
+
         try {
-            await ApiPost(`/partyEvents/party/${!is_like ? 'like' : 'dis-like'}`, { id })
+            await ApiPost(`/partyEvents/party/${!like ? 'like' : 'dis-like'}`, { id, userId: decordeToke.userRegistration_id })
                 .then((res) => {
                     if (res.status === 200) {
 
                         const findIndex = eventData.findIndex((item) => item._id === id)
                         if (findIndex >= 0) {
                             const copyData = eventData;
-                            copyData[findIndex].is_like = !is_like;
+                            copyData[findIndex].is_like = res.data.is_like;
                             setEventData([...copyData])
+
                             toast.success(res.data);
                         }
                     }
@@ -69,7 +75,7 @@ export default function Events() {
                             {
                                 eventData.map((item, index) => {
                                     return (
-                                        <EventBox data={item} key={index} handleLikeDisLike={handleLikeDisLike} />
+                                        <EventBox data={item} user_id={decordeToke.userRegistration_id} key={index} handleLikeDisLike={handleLikeDisLike} />
                                     )
                                 })
                             }

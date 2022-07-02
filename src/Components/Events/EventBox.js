@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 const useStyles = makeStyles(theme => ({
     eventBox: {
         display: 'block',
-        maxWidth: '250px',  
+        maxWidth: '250px',
         width: '250px',
         minWidth: '250px',
         overflow: 'hidden',
@@ -103,7 +103,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function EventBox({ data, handleLikeDisLike }) {
+export default function EventBox({ data, handleLikeDisLike, user_id }) {
     const classes = useStyles();
     return (
         <div className={classes.eventBox}>
@@ -121,10 +121,10 @@ export default function EventBox({ data, handleLikeDisLike }) {
                         <h6>{data.company_name}</h6>
                     </div>
                     {
-                        data.is_like ?
-                            <FavoriteIcon onClick={() => handleLikeDisLike(data._id, data.is_like)} />
+                        data.is_like.includes(user_id) ?
+                            <FavoriteIcon onClick={() => handleLikeDisLike(data._id, data.is_like.includes(user_id), data.user_id)} />
                             :
-                            <FavoriteBorderIcon onClick={() => handleLikeDisLike(data._id, data.is_like)} />
+                            <FavoriteBorderIcon onClick={() => handleLikeDisLike(data._id, data.is_like.includes(user_id), data.user_id)} />
                     }
                 </div>
             </div>
