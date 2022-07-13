@@ -11,6 +11,7 @@ import PublicRoutes from './PublicRoute';
 import Events from '../Components/Events';
 import PartyEventRegister from '../Components/PartyEventRegister';
 import ImageUpload from '../Components/ImageUpload';
+import Chat from '../Components/Chat';
 
 export default function Routers() {
     return (
@@ -22,6 +23,7 @@ export default function Routers() {
             <Route path="/party-event" element={<PrivateRoutes><Events /></PrivateRoutes>} exact />
             <Route path="/event-register" element={<PrivateRoutes><PartyEventRegister /></PrivateRoutes>} exact />
             <Route path="/image-upload" element={<PrivateRoutes><ImageUpload /></PrivateRoutes>} exact />
+            <Route path="/chat" element={<PrivateRoutes><Chat /></PrivateRoutes>} exact />
         </Routes>
     )
 }

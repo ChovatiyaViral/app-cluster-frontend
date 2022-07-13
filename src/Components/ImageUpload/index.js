@@ -1,8 +1,6 @@
 import { makeStyles, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { ApiPost, ApiGet } from '../../apiHelper';
-import Footer from '../../Layout/Footer'
-import Header from '../../Layout/Header'
 
 const useStyles = makeStyles(theme => ({
     imageUploadSection: {
@@ -70,7 +68,6 @@ export default function ImageUpload() {
 
     return (
         <>
-            <Header />
             <div className={classes.imageUploadSection}>
                 Image upload
                 <TextField
@@ -96,7 +93,6 @@ export default function ImageUpload() {
                     }
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

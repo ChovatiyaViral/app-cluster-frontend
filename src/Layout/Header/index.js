@@ -3,14 +3,14 @@ import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Too
 import MenuIcon from '@material-ui/icons/Menu';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['homePage', 'Party Events', 'Register Party Event','Image Upload'];
+const pages = ['homePage', 'Party Events', 'Register Party Event', 'Image Upload', 'chat'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const navigetMenu = {
-    // 'Registration': '/registration',
     'homePage': '/home',
     'Party Events': '/party-event',
     'Register Party Event': '/event-register',
-    'Image Upload': '/image-upload'
+    'Image Upload': '/image-upload',
+    'chat': '/chat'
 }
 
 export default function Header() {
@@ -44,7 +44,7 @@ export default function Header() {
     };
 
     const handleAction = (setting) => {
-        if(setting === "Logout") {
+        if (setting === "Logout") {
             localStorage.clear();
             navigate('/login');
             handleCloseUserMenu()

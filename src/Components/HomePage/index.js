@@ -1,13 +1,14 @@
 import { Button, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
-import { ApiDelete, ApiGet, ApiPost, ApiPut } from '../../apiHelper';
-import Layout from '../../Layout';
+import { ApiDelete, ApiPost, ApiPut } from '../../apiHelper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import AddEventModal from '../../commonComponents/AddEventModal';
 import AddIcon from '@material-ui/icons/Add';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
+import Pagination from 'react-bootstrap-4-pagination';
+
 
 const useStyles = makeStyles(theme => ({
 
@@ -89,18 +90,21 @@ export default function HomePage() {
         description: ''
     });
     const [type, setType] = useState('Edit');
-    const [htmlDoc, setHtmlDoc] = useState(null)
+    const [htmlDoc, setHtmlDoc] = useState(null);
+    const [totalData, setTotalData] = useState(0);
 
     useEffect(() => {
-        fetchEventData()
+        fetchEventData(1)
     }, [])
 
-    const fetchEventData = async () => {
+    const fetchEventData = async (pageNumber) => {
         try {
-            await ApiGet('/event')
+            await ApiPost('/event', { page: pageNumber, limite: 5 })
                 .then((res) => {
                     if (res.status === 200) {
-                        setEventData(res.data);
+                        console.log("res", res);
+                        setEventData(res.data.eventData);
+                        setTotalData(res.data.totalData);
                     }
                 })
 
@@ -164,7 +168,7 @@ export default function HomePage() {
 
         if (data) {
             try {
-                await ApiPost(`/event`, data)
+                await ApiPost(`/event/add`, data)
                     .then((res) => {
                         if (res.status === 200) {
                             handleToggleModal();
@@ -226,37 +230,39 @@ export default function HomePage() {
         }
     }
 
+    const handleChangePagination = (e) => {
+        fetchEventData(e)
+    }
 
     return (
         <>
             <AddEventModal open={open} handleClose={handleToggleModal} type={type} selectedRowData={selectedRowData} handleEditData={handleEditData} handleAddData={handleAddData} />
-            <Layout>
-                <div className={classes.addButton}>
-                    <Button variant="contained" startIcon={<AddIcon />} color="success" onClick={handleAdd}>
-                        Add
-                    </Button>
-                </div>
-                {eventData.map((item, index) => {
-                    return (
-                        <div key={index} className={classes.eventBox}>
-                            <div className={classes.eventTitles}>
-                                <div className={classes.mainTitle}>
-                                    <h1>{item.event_name}</h1>
-                                    <h6>{item.event_address}</h6>
-                                </div>
-                                <p>{item.description}</p>
+            <div className={classes.addButton}>
+                <Button variant="contained" startIcon={<AddIcon />} color="success" onClick={handleAdd}>
+                    Add
+                </Button>
+            </div>
+            {eventData.map((item, index) => {
+                return (
+                    <div key={index} className={classes.eventBox}>
+                        <div className={classes.eventTitles}>
+                            <div className={classes.mainTitle}>
+                                <h1>{item.event_name}</h1>
+                                <h6>{item.event_address}</h6>
                             </div>
-                            <div className={classes.actionIcons}>
-                                <DeleteIcon onClick={() => handleDeleteEvent(item._id)} />
-                                <EditIcon onClick={() => handleEditEvent(item.id)} />
-                                <VisibilityIcon onClick={() => handleViewContent(item)} />
-                                <AssignmentReturnedIcon onClick={() => handleViewPdf(item)} />
-                            </div>
+                            <p>{item.description}</p>
                         </div>
-                    )
-                })}
-                <div dangerouslySetInnerHTML={{ __html: htmlDoc }} ></div>
-            </Layout>
+                        <div className={classes.actionIcons}>
+                            <DeleteIcon onClick={() => handleDeleteEvent(item._id)} />
+                            <EditIcon onClick={() => handleEditEvent(item.id)} />
+                            <VisibilityIcon onClick={() => handleViewContent(item)} />
+                            <AssignmentReturnedIcon onClick={() => handleViewPdf(item)} />
+                        </div>
+                    </div>
+                )
+            })}
+            <div dangerouslySetInnerHTML={{ __html: htmlDoc }} ></div>
+            <Pagination totalPages={totalData / 5} onClick={handleChangePagination} />
         </>
     )
 }

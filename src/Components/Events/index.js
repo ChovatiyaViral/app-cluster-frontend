@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../../Layout'
 import EventBox from './EventBox';
 import { makeStyles } from '@material-ui/core';
 import { ApiGet, ApiPost } from '../../apiHelper';
@@ -67,22 +66,20 @@ export default function Events() {
     }
 
     return (
-        <Layout>
-            <div className={classes.eventSection}>
-                {
-                    eventData && eventData.length ?
-                        <>
-                            {
-                                eventData.map((item, index) => {
-                                    return (
-                                        <EventBox data={item} user_id={decordeToke.userRegistration_id} key={index} handleLikeDisLike={handleLikeDisLike} />
-                                    )
-                                })
-                            }
-                        </>
-                        : null
-                }
-            </div>
-        </Layout>
+        <div className={classes.eventSection}>
+            {
+                eventData && eventData.length ?
+                    <>
+                        {
+                            eventData.map((item, index) => {
+                                return (
+                                    <EventBox data={item} user_id={decordeToke.userRegistration_id} key={index} handleLikeDisLike={handleLikeDisLike} />
+                                )
+                            })
+                        }
+                    </>
+                    : null
+            }
+        </div>
     )
 }
